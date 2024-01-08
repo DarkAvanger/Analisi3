@@ -49,7 +49,7 @@ public class Data : MonoBehaviour, IMessageReceiver
                     //Debug.Log("From: " + damMsg.direction);
                     //Debug.Log("From: " + damMsg.damageSource);
                     //Debug.Log("Amount: " + damMsg.amount);
-                    if (damMsg.throwing)
+                    if (damMsg.throwing == true)
                     {
                         rangedInt = 1;
                     }
@@ -59,6 +59,8 @@ public class Data : MonoBehaviour, IMessageReceiver
                         ranged = rangedInt,
                         enemy = damMsg.damager.name,
                     };
+
+                    rangedInt = 0;
 
                     string jsonData = JsonUtility.ToJson(user);
 
