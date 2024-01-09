@@ -13,7 +13,9 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 
 public class EllenData
 {
-    public Vector3 position;
+    public float positionX;
+    public float positionY;
+    public float positionZ;
     public int ranged;
     public string enemy;
 }
@@ -53,18 +55,21 @@ public class Data : MonoBehaviour, IMessageReceiver
                     {
                         rangedInt = 1;
                     }
+
                     EllenData user = new EllenData
                     {
-                        position = dam.transform.position,
+                        positionX = dam.transform.position.x,
+                        positionY = dam.transform.position.y,
+                        positionZ = dam.transform.position.z,
                         ranged = rangedInt,
                         enemy = damMsg.damager.name,
                     };
 
-                    rangedInt = 0;
-
                     string jsonData = JsonUtility.ToJson(user);
 
                     StartCoroutine(Upload(jsonData));
+
+                    rangedInt = 0;
 
                 }
                 break;
@@ -78,7 +83,9 @@ public class Data : MonoBehaviour, IMessageReceiver
                     //Debug.Log("Amount: " + damMsg.amount);
                     EllenData user = new EllenData
                     {
-                        position = dam.transform.position,
+                        positionX = dam.transform.position.x,
+                        positionY = dam.transform.position.y,
+                        positionZ = dam.transform.position.z,
                         ranged = rangedInt,
                         enemy = damMsg.damager.name,
                     };
