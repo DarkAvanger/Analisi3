@@ -24,25 +24,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $EllenData = json_decode($jsonData, true);
 
     if ($EllenData !== null) {
-        $position = $EllenData['position'];
+        $positionX = $EllenData['positionX'];
+        $positionY = $EllenData['positionY'];
+        $positionZ = $EllenData['positionZ'];
         $ranged = $EllenData['ranged'];
         $enemy = $EllenData['enemy'];
        
 
         // Prepare an SQL statement to insert the data into the "Users" table
-        $sql = "INSERT INTO laiapp4 (position, ranged, enemy) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO Damage (positionX, positionY, positionZ, ranged, enemy) VALUES (?, ?, ?, ?, ?)";
         echo "Ranged" . $ranged;
         // Create a prepared statement
         $stmt = $conn->prepare($sql);
 
         if ($stmt) {
             // Bind the parameters with the updated type definition string
-            $stmt->bind_param("iis", $position, $ranged, $enemy);
+            $stmt->bind_param("dddis", $positionX, $positionY, $positionZ, $ranged, $enemy);
 
             // Execute the statement
             if ($stmt->execute()) {
                 $last_id = $conn->insert_id;
-                echo $last_id;
+                //echo $last_id;
             } else {
                 echo "Error inserting data: " . $stmt->error;
             }

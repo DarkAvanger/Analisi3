@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.Networking;
+using UnityEngine.UIElements;
 using static Gamekit3D.Damageable;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
@@ -22,11 +23,13 @@ public class EllenData
 public class Data : MonoBehaviour, IMessageReceiver
 {
     int rangedInt = 0;
-    public string serverUrl;
+    public string PHPDamage;
+    public string PHPDeath;
+    public string PHPMove;
     public GameObject Ellen;
     public GameObject[] Enemies;
-    Vector3 EllenPos;
     Vector3 EllenMov;
+
 
     private void OnEnable()
     {
@@ -45,12 +48,6 @@ public class Data : MonoBehaviour, IMessageReceiver
         {
             case MessageType.DAMAGED:
                 {
-                    //EllenPos = dam.transform.position;
-                    //Debug.Log("Ellen Damaged at: " + EllenPos + " by: "+ damMsg.damager.name);
-                    //Debug.Log( "Melee or ranged: " + damMsg.throwing);
-                    //Debug.Log("From: " + damMsg.direction);
-                    //Debug.Log("From: " + damMsg.damageSource);
-                    //Debug.Log("Amount: " + damMsg.amount);
                     if (damMsg.throwing == true)
                     {
                         rangedInt = 1;
@@ -67,7 +64,7 @@ public class Data : MonoBehaviour, IMessageReceiver
 
                     string jsonData = JsonUtility.ToJson(user);
 
-                    StartCoroutine(Upload(jsonData));
+                    StartCoroutine(UploadDamage(jsonData));
 
                     rangedInt = 0;
 
@@ -75,12 +72,6 @@ public class Data : MonoBehaviour, IMessageReceiver
                 break;
             case MessageType.DEAD:
                 {
-                   // EllenPos = dam.transform.position;
-                    //Debug.Log("Ellen Dead at: " + EllenPos + " by: " + damMsg.damager.name);
-                    //Debug.Log("Melee or ranged: " + damMsg.throwing);
-                    //Debug.Log("From: " + damMsg.direction);
-                    //Debug.Log("From: " + damMsg.damageSource);
-                    //Debug.Log("Amount: " + damMsg.amount);
                     EllenData user = new EllenData
                     {
                         positionX = dam.transform.position.x,
@@ -91,6 +82,8 @@ public class Data : MonoBehaviour, IMessageReceiver
                     };
 
                     string jsonData = JsonUtility.ToJson(user);
+
+                    StartCoroutine(UploadDeath(jsonData));
                 }
                 break;
         }
@@ -99,16 +92,25 @@ public class Data : MonoBehaviour, IMessageReceiver
     void Update()
     {
         EllenMov = Ellen.transform.position;
-        //Debug.Log(EllenMov);
+        EllenData user = new EllenData
+        {
+            positionX = EllenMov.x,
+            positionY = EllenMov.y,
+            positionZ = EllenMov.z,
+        };
+
+        string jsonData = JsonUtility.ToJson(user);
+
+        //StartCoroutine(UploadMove(jsonData));
     }
 
-    IEnumerator Upload(string jsonData)
+    IEnumerator UploadDamage(string jsonData)
     {
         WWWForm form = new WWWForm();
         form.AddField("jsonData", jsonData);
 
 
-        UnityWebRequest www = UnityWebRequest.Post(serverUrl, form);
+        UnityWebRequest www = UnityWebRequest.Post(PHPDamage, form);
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)
@@ -117,8 +119,50 @@ public class Data : MonoBehaviour, IMessageReceiver
         }
         else
         {
-            //Debug.Log("Form upload complete!");
-            //Debug.Log("Data uploaded successfully!");
+            Debug.Log(www.downloadHandler.text);
+            Debug.Log(jsonData);
+        }
+
+
+    }
+
+    IEnumerator UploadMove(string jsonData)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("jsonData", jsonData);
+
+
+        UnityWebRequest www = UnityWebRequest.Post(PHPMove, form);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+            Debug.Log(jsonData);
+        }
+
+
+    }
+
+    IEnumerator UploadDeath(string jsonData)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("jsonData", jsonData);
+
+
+        UnityWebRequest www = UnityWebRequest.Post(PHPDeath, form);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
             Debug.Log(www.downloadHandler.text);
             Debug.Log(jsonData);
         }
