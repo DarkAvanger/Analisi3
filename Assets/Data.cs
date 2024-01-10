@@ -19,8 +19,6 @@ public class EllenData
     public float positionZ;
     public int ranged;
     public string enemy;
-    public int session_id;
-
 }
 public class Data : MonoBehaviour, IMessageReceiver
 {
@@ -32,7 +30,6 @@ public class Data : MonoBehaviour, IMessageReceiver
     public GameObject Ellen;
     public GameObject[] Enemies;
     Vector3 EllenMov;
-    private int session = 0;
 
 
     private void OnEnable()
@@ -64,7 +61,6 @@ public class Data : MonoBehaviour, IMessageReceiver
                         positionZ = dam.transform.position.z,
                         ranged = rangedInt,
                         enemy = damMsg.damager.name,
-                        session_id = session,
                     };
 
                     string jsonData = JsonUtility.ToJson(user);
@@ -136,14 +132,6 @@ public class Data : MonoBehaviour, IMessageReceiver
         }
         else
         {
-            if (int.TryParse(www.downloadHandler.text, out session))
-            {
-                Debug.Log("Received id: " + session);
-            }
-            else
-            {
-                Debug.LogError("Failed to parse id from the response: " + www.downloadHandler.text);
-            }
             Debug.Log(www.downloadHandler.text);
             Debug.Log(jsonData);
         }
@@ -166,14 +154,6 @@ public class Data : MonoBehaviour, IMessageReceiver
         }
         else
         {
-            if (int.TryParse(www.downloadHandler.text, out session))
-            {
-                Debug.Log("Received id: " + session);
-            }
-            else
-            {
-                Debug.LogError("Failed to parse id from the response: " + www.downloadHandler.text);
-            }
             Debug.Log(www.downloadHandler.text);
             Debug.Log(jsonData);
         }
@@ -196,14 +176,6 @@ public class Data : MonoBehaviour, IMessageReceiver
         }
         else
         {
-            if (int.TryParse(www.downloadHandler.text, out session))
-            {
-                Debug.Log("Received id: " + session);
-            }
-            else
-            {
-                Debug.LogError("Failed to parse id from the response: " + www.downloadHandler.text);
-            }
             Debug.Log(www.downloadHandler.text);
             Debug.Log(jsonData);
         }
