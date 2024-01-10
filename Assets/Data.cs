@@ -22,6 +22,7 @@ public class EllenData
 }
 public class Data : MonoBehaviour, IMessageReceiver
 {
+    float timer;
     int rangedInt = 0;
     public string PHPDamage;
     public string PHPDeath;
@@ -91,17 +92,29 @@ public class Data : MonoBehaviour, IMessageReceiver
 
     void Update()
     {
-        EllenMov = Ellen.transform.position;
-        EllenData user = new EllenData
+        // Assuming you have a timer to control the delay
+        if (timer >= 1.0f)
         {
-            positionX = EllenMov.x,
-            positionY = EllenMov.y,
-            positionZ = EllenMov.z,
-        };
+            EllenMov = Ellen.transform.position;
+            EllenData user = new EllenData
+            {
+                positionX = EllenMov.x,
+                positionY = EllenMov.y,
+                positionZ = EllenMov.z,
+            };
 
-        string jsonData = JsonUtility.ToJson(user);
+            string jsonData = JsonUtility.ToJson(user);
 
-        //StartCoroutine(UploadMove(jsonData));
+            //StartCoroutine(UploadMove(jsonData));
+
+            // Reset the timer after sending the data
+            timer = 0.0f;
+        }
+        else
+        {
+            // Increment the timer in each frame
+            timer += Time.deltaTime;
+        }
     }
 
     IEnumerator UploadDamage(string jsonData)
