@@ -105,7 +105,7 @@ public class Data : MonoBehaviour, IMessageReceiver
 
             string jsonData = JsonUtility.ToJson(user);
 
-            //StartCoroutine(UploadMove(jsonData));
+            StartCoroutine(UploadMove(jsonData));
 
             // Reset the timer after sending the data
             timer = 0.0f;
