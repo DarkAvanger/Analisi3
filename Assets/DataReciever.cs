@@ -3,18 +3,24 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[Serializable]
-public class PositionData
-{
-    public float positionX;
-    public float positionY;
-    public float positionZ;
-    public PositionData[] data;
-}
-
-
 public class DataReceiver : MonoBehaviour
 {
+    [Serializable]
+    public class PositionData
+    {
+        public float positionX;
+        public float positionY;
+        public float positionZ;
+        public float ranged;
+        public string enemy;
+    }
+
+    [Serializable]
+    public class DataObject
+    {
+        public PositionData[] Data;
+    }
+
     public HeatmapGenerator heatmapGenerator;
 
     void Start()
@@ -32,11 +38,15 @@ public class DataReceiver : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text;
-            PositionData dataList = JsonUtility.FromJson<PositionData>("{\"data\":" + json + "}");
-            foreach (var data in dataList.data)
+
+            DataObject dataList = JsonUtility.FromJson<DataObject>("{\"Data\":" + json + "}");
+            for(int i = 0; i < dataList.Data.Length; i++)
+            foreach (PositionData data in dataList.Data)
             {
-                heatmapGenerator.AddPosition(new Vector3(data.positionX, data.positionY, data.positionZ));
-            }
+                    //Debug.Log("X: " + data.positionX + " Y: " + data.positionY + " Z: " + data.positionZ);
+                    heatmapGenerator.AddPosition(new Vector3(data.positionX, data.positionY, data.positionZ));
+                }
+            
         }
         else
         {
