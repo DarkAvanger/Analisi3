@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UIElements;
 
 public class DataReceiver : MonoBehaviour
 {
@@ -45,8 +46,9 @@ public class DataReceiver : MonoBehaviour
             {
                     //Debug.Log("X: " + data.positionX + " Y: " + data.positionY + " Z: " + data.positionZ);
                     heatmapGenerator.AddPosition(new Vector3(data.positionX, data.positionY, data.positionZ));
-                }
-            
+            }
+
+            heatmapGenerator.CreateHeatMap();
         }
         else
         {

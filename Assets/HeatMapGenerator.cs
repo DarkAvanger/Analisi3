@@ -6,8 +6,12 @@ public class HeatmapGenerator : MonoBehaviour
     public Material heatmapMaterial;
     private List<Vector3> positions = new List<Vector3>();
 
-    void Start()
+    public void CreateHeatMap()
     {
+        foreach(Vector3 pos in positions)
+        {
+            Debug.Log(pos.x + " " + pos.y + " " + pos.z);
+        }
         // Aquí, llama a CreateHeatmapTexture con tus datos de posición
         Texture2D heatmapTexture = CreateHeatmapTexture(positions, 256, 256);
         heatmapMaterial.mainTexture = heatmapTexture;
