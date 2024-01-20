@@ -27,11 +27,24 @@ public class DataReceiver2 : MonoBehaviour
     }
 
 
-    void Start()
+    public void StartDataFetching()
     {
 
         StartCoroutine(GetDataFromServer());
 
+    }
+
+    public void ClearObjects()
+    {
+        foreach (Vector3 pos in lastPos)
+        {
+            GameObject obj = FindObjectAtPosition(pos);
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+        lastPos.Clear();
     }
 
     IEnumerator GetDataFromServer()

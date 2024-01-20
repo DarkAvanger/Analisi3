@@ -6,6 +6,9 @@ TagManager:
   tags:
   - FlythroughCam
   - YourCubeTag
+  - HitData
+  - DeadData
+  - MoveData
   layers:
   - Default
   - TransparentFX
