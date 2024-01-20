@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - FlythroughCam
+  - YourCubeTag
   layers:
   - Default
   - TransparentFX
