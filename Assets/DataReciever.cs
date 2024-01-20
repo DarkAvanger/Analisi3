@@ -26,8 +26,6 @@ public class DataReceiver : MonoBehaviour
         public PositionData[] Data;
     }
 
-    public HeatmapGenerator heatmapGenerator;
-
     void Start()
     {
 
