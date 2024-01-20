@@ -9,8 +9,6 @@ using UnityEngine.Analytics;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using static Gamekit3D.Damageable;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
-
 
 public class EllenData
 {
