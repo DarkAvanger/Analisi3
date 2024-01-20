@@ -62,15 +62,18 @@ public class DataReceiver : MonoBehaviour
             foreach (PositionData data in dataList.Data)
             {
                 Vector3 posicionSpawn = new Vector3(Mathf.Round(data.positionX), Mathf.Round(data.positionY), Mathf.Round(data.positionZ));
-                
-                if (lastPos.Contains(posicionSpawn))
+
+                if (data.ranged == 1)
                 {
-                    ChangeColor(posicionSpawn);
-                }
-                else
-                {
-                    GameObject nuevoObjeto = Instantiate(cubeHeat, posicionSpawn, Quaternion.identity);
-                    lastPos.Add(posicionSpawn);
+                    if (lastPos.Contains(posicionSpawn))
+                    {
+                        ChangeColor(posicionSpawn);
+                    }
+                    else
+                    {
+                        GameObject nuevoObjeto = Instantiate(cubeHeat, posicionSpawn, Quaternion.identity);
+                        lastPos.Add(posicionSpawn);
+                    }
                 }
             }
 
@@ -109,7 +112,7 @@ public class DataReceiver : MonoBehaviour
             {
                 int repeticiones = CountRepetitions(posicion);
                 Debug.Log(repeticiones);
-                if (repeticiones > 4)
+                if (repeticiones > 8)
                 {
                     changeColor.colorChange(Color.red);
                 }               

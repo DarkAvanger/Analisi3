@@ -110,7 +110,7 @@ public class DataReceiver2 : MonoBehaviour
             {
                 int repeticiones = CountRepetitions(posicion);
                 Debug.Log(repeticiones);
-                if (repeticiones > 4)
+                if (repeticiones > 30)
                 {
                     changeColor.colorChange(Color.red);
                 }               
